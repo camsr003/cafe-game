@@ -14,7 +14,7 @@ public class PauseManager : MonoBehaviour
     {
         // Get all scripts you want to disable
         playerScripts = player.GetComponents<MonoBehaviour>(); 
-        // Optionally filter only movement/camera scripts if there are extra
+        // filter only movement/camera scripts if there are extra?
     }
 
     void Update()

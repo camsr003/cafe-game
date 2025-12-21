@@ -7,7 +7,15 @@ public class DoorInteractable : MonoBehaviour, IInteractable
     public float speed = 4f;
 
     private bool isOpen;
+    private float closedAngle;
     private float targetAngle;
+
+    void Start()
+    {
+        // Store the door's actual closed rotation
+        closedAngle = hinge.localEulerAngles.y;
+        targetAngle = closedAngle;
+    }
 
     void Update()
     {
@@ -19,7 +27,22 @@ public class DoorInteractable : MonoBehaviour, IInteractable
     public void Interact()
     {
         isOpen = !isOpen;
-        targetAngle = isOpen ? openAngle : 0f;
+
+        if (isOpen)
+        {
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            Vector3 toPlayer = (player.position - hinge.position).normalized;
+            float dot = Vector3.Dot(hinge.forward, toPlayer);
+
+            // Open away from the player, relative to closed angle
+            float direction = dot > 0 ? -1f : 1f;
+            targetAngle = closedAngle + openAngle * direction;
+        }
+        else
+        {
+            // Return to original rotation
+            targetAngle = closedAngle;
+        }
     }
 }
-
