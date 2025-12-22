@@ -3,14 +3,19 @@ using System.Collections;
 
 public class Customer : MonoBehaviour, IInteractable
 {
-    public string customerName;
-    public bool isServed = false;
+    [Header("Customer Data")]
+    public CustomerData customerData; // assign this in Inspector
 
-    [Header("Movement")]
-    public float moveSpeed = 2f;
+    private float waitTimer;
+    private bool isLeaving = false;
+
+    public bool isServed = false;
 
     [Header("Queue")]
     public Transform queuePosition;
+
+    [Header("Order Data")]
+    public OrderData currentOrder;
 
     private enum CustomerState
     {
@@ -32,7 +37,7 @@ public class Customer : MonoBehaviour, IInteractable
                 Leave();
                 break;
             case CustomerState.Waiting:
-                // Do nothing
+                WaitInQueue();
                 break;
         }
     }
@@ -47,18 +52,33 @@ public class Customer : MonoBehaviour, IInteractable
         Vector3 dir = targetPos - transform.position;
         if (dir.magnitude > 0.05f)
         {
-            transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+            transform.position += dir.normalized * customerData.moveSpeed * Time.deltaTime;
             transform.forward = dir.normalized;
         }
         else
         {
             state = CustomerState.Waiting;
+            waitTimer = 0f;
         }
     }
+
+    void WaitInQueue()
+    {
+        waitTimer += Time.deltaTime;
+
+        if (waitTimer >= customerData.maxWaitTime)
+        {
+            Debug.Log($"{customerData.customerName} got tired of waiting and left!");
+            state = CustomerState.Leaving;
+        }
+    }
+
 
     void Leave()
     {
         // Destroy after some secs
+        if (isLeaving) return;
+        isLeaving = true;
         StartCoroutine(LeaveRoutine());
     }
 
@@ -75,14 +95,19 @@ public class Customer : MonoBehaviour, IInteractable
         state = CustomerState.GoingToQueue;
     }
 
+    public void AssignOrder(OrderData order)
+    {
+        currentOrder = order;
+    }
+
     public void Interact()
     {
         if (state == CustomerState.Waiting && !isServed)
         {
             isServed = true;
-            DayManager.Instance.earnings += 100;
+            DayManager.Instance.earnings += customerData.reward;
             state = CustomerState.Leaving;
-            Debug.Log($"{customerName} has been served and is leaving!");
+            Debug.Log($"{customerData.customerName} has been served and is leaving!");
         }
         else
         {
