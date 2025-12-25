@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185030de7dc4f72478a620d40335c1ea, type: 3}
+  m_Name: SpillData
+  m_EditorClassIdentifier: Assembly-CSharp::MessData
+  messName: Spill
+  messPrefab: {fileID: 4775470323455322087, guid: cfdc80819671f624ba5725afba26b044, type: 3}
+  cleanTime: 1

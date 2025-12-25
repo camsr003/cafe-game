@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67cda1f5a6454364e9f9797d53bde8ce, type: 3}
   m_Name: Coffee
   m_EditorClassIdentifier: Assembly-CSharp::OrderData
-  orderName: Green Tea
-  requiredItems: []
+  orderName: Coffee
+  requiredItems:
+  - {fileID: 0}
   requiredAmounts: 
   moneyReward: 0
   patienceDrainModifier: 1
-  isCursed: 0
-  isRare: 0

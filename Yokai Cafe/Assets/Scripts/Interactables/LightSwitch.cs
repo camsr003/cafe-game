@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class LightSwitch : MonoBehaviour, IInteractable
 {
+    public string interactName = "Light Switch";
+    public string interactPrompt = "Interact";
+    
+    public string InteractName => interactName;
+    public string InteractPrompt => interactPrompt;
     [Header("Lights Controlled")]
     public Light[] lights;
 

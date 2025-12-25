@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 interface IInteractable
 {
+    string InteractName { get; }
+    string InteractPrompt { get; }
+
     void Interact();
 }
+
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
@@ -73,11 +78,13 @@ public class PlayerController : MonoBehaviour
     public float interactCooldown = 0.25f; // time in seconds between interactions
     private float lastInteractTime = -Mathf.Infinity; // tracks last interaction
     public Transform InteractorSource;
-    public float InteractRange = 2f;
+    public float InteractRange = 5f;
     [SerializeField] private PlayerHoldController holdController;
 
     [Header("UI")]
     public GameObject interactPrompt;
+    public TMP_Text interactText;
+
     private IInteractable currentInteractable;
 
     void Awake()
@@ -240,11 +247,16 @@ public class PlayerController : MonoBehaviour
         if (interactPrompt != null) interactPrompt.SetActive(false);
 
         Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
+
+        Debug.DrawRay(r.origin, r.direction * InteractRange, Color.green); //Draw ray
+
         if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange))
         {
             if (hitInfo.collider.TryGetComponent(out IInteractable interactObj))
             {
                 currentInteractable = interactObj;
+                
+                interactText.text = $"{interactObj.InteractName} - [E] {interactObj.InteractPrompt}";
                 if (interactPrompt != null) interactPrompt.SetActive(true);
             }
         }

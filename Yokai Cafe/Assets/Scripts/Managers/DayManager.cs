@@ -117,8 +117,11 @@ public class DayManager : MonoBehaviour
         totalCustomers = 0;
         maxCustomers = 5;
 
+        //UI reset
+        
+
         //Prep cafe map
-        //Close all doors
+        
 
 
         // Move player to start
@@ -157,7 +160,7 @@ public class DayManager : MonoBehaviour
 
     private bool CanClose()
     {
-        if (totalCustomers >= maxCustomers && !HasCustomers())
+        if (totalCustomers == maxCustomers && !HasCustomers())
         {
             Debug.Log("Can Close");
             return true;
@@ -171,9 +174,10 @@ public class DayManager : MonoBehaviour
 
         // Start the spawning coroutine once
         Coroutine spawning = StartCoroutine(CustomerSpawningRoutine());
-
-        while (servingTime > 0 || !CanClose())
+        while (servingTime > 0)
         {
+            if (CanClose()) break;
+
             servingTime -= Time.deltaTime;
             yield return null;
         }

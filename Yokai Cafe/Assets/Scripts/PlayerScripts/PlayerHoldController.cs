@@ -16,6 +16,17 @@ public class PlayerHoldController : MonoBehaviour
 
     public bool IsHoldingItem() => heldItem != null;
 
+    public HoldableItem GetHeldItem()
+    {
+        return heldItem;
+    }
+
+    public void ClearHeldItem()
+    {
+        heldItem = null;
+    }
+
+
     public void HoldItem(HoldableItem item)
     {
         if (heldItem != null) return;

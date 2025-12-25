@@ -2,7 +2,13 @@ using UnityEngine;
 
 public class HoldableItem : MonoBehaviour, IInteractable
 {
-    public ItemData itemData;
+     public ItemData itemData;
+
+    public string InteractName =>
+        itemData != null ? itemData.itemName : "Item";
+
+    public string InteractPrompt => "Pick Up";
+
 
     private Rigidbody rb;
     private Collider col;

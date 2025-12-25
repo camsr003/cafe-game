@@ -12,8 +12,4 @@ public class OrderData : ScriptableObject
     [Header("Rewards")]
     public int moneyReward;
     public float patienceDrainModifier = 1f;
-
-    [Header("Tags")]
-    public bool isCursed;
-    public bool isRare;
 }

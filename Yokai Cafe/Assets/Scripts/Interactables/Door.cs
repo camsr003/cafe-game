@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class DoorInteractable : MonoBehaviour, IInteractable
 {
+    public string interactName = "Door";
+    public string interactPrompt = "Interact";
+    
+    public string InteractName => interactName;
+    public string InteractPrompt => interactPrompt;
+
     public Transform hinge;
     public float openAngle = 90f;
     public float speed = 4f;

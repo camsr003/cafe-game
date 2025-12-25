@@ -2,6 +2,11 @@
 using UnityEngine;
 public class OpenSign : MonoBehaviour, IInteractable
 {
+    public string interactName = "Sign";
+    public string interactPrompt = "Flip Over";
+    
+    public string InteractName => interactName;
+    public string InteractPrompt => interactPrompt;
     public void Interact()
     {
         if (DayManager.Instance.CurrentState == DayState.Preparing)

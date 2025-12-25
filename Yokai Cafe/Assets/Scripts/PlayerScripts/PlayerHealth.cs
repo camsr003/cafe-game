@@ -11,6 +11,7 @@ public class HealthSystem : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
     }
 
     // Public method to modify health from other scripts 
@@ -30,9 +31,8 @@ public class HealthSystem : MonoBehaviour
     void Die()
     {
         Debug.Log(gameObject.name + " died!");
-        // Game over screen
-        // gameOverMenu.SetActive(true);
-        // Cursor.lockState = CursorLockMode.None;
-        // Cursor.visible = true;
+        gameOverMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

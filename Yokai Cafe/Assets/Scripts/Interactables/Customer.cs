@@ -6,6 +6,12 @@ public class Customer : MonoBehaviour, IInteractable
     [Header("Customer Data")]
     public CustomerData customerData; // assign this in Inspector
 
+    public string InteractName =>
+        customerData != null ? customerData.customerName : "Customer";
+
+    public string InteractPrompt => "Interact";
+
+
     private float waitTimer;
     private bool isLeaving = false;
 
@@ -84,7 +90,7 @@ public class Customer : MonoBehaviour, IInteractable
 
     private IEnumerator LeaveRoutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         QueueManager.Instance.RemoveCustomer(this);
         Destroy(gameObject);
     }
@@ -104,14 +110,26 @@ public class Customer : MonoBehaviour, IInteractable
     {
         if (state == CustomerState.Waiting && !isServed)
         {
-            isServed = true;
-            DayManager.Instance.earnings += customerData.reward;
-            state = CustomerState.Leaving;
-            Debug.Log($"{customerData.customerName} has been served and is leaving!");
-        }
-        else
-        {
-            Debug.Log("Customer is leaving.");
+            HoldableItem held = PlayerHoldController.Instance.GetHeldItem();
+            if (held == null)
+            {
+                Debug.Log($"Customer wants {currentOrder.orderName}");
+                return;
+            }
+
+            if (held.itemData != null && held.itemData.itemName == currentOrder.orderName) // correct order
+            {
+                Destroy(held.gameObject);
+                isServed = true;
+                DayManager.Instance.earnings += customerData.reward;
+                DayManager.Instance.activeCustomers.Remove(this);
+                state = CustomerState.Leaving;
+                Debug.Log($"{customerData.customerName} has been served and is leaving!");
+            }
+            else
+            {
+                Debug.Log($" Wrong order. Customer wants {currentOrder.orderName}");
+            }
         }
     }
 }
